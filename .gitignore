@@ -1,4 +1,4 @@
 output/
-pretrained/
-datasets/
+pretrained
+datasets
 __pycache__/*

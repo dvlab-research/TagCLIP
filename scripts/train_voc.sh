@@ -1,0 +1,1 @@
+python3 src/train.py configs/voc12/inductive.py --work-dir=output/rebuttal2/voc12/ours/inductive/trial:1/   && python test.py configs/voc12/inductive.py output/rebuttal2/voc12/ours/inductive/trial:1//latest.pth --eval=mIoU

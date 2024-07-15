@@ -1,0 +1,69 @@
+img_size = 512
+in_channels = 512
+out_indices = [11]
+pretrained = 'pretrained/ViT-B-16.pt'
+
+model = dict(
+    type='ProposedCLIPSegmentor',
+    pretrained=pretrained, 
+    pretrained_text=pretrained, 
+    context_length=77,
+    backbone=dict(
+        type='VPTCLIPVisionTransformer',
+        patch_size=16,
+        width=768,
+        output_dim=512,
+        get_embeddings=True,
+        drop_path_rate=0.1,
+        layers=12,
+        heads=12,
+        input_resolution=img_size,
+        out_indices=out_indices,
+        # setting of vpt
+        # num_tokens=10,
+        prompt_dim=768,
+        total_d_layer=11,
+        style='pytorch'),
+    text_encoder=dict(
+        type='CLIPTextEncoder',
+        context_length=77,
+        embed_dim=512,
+        transformer_width=512,
+        transformer_heads=8,
+        transformer_layers=12,
+        style='pytorch'),
+    decode_head=dict(
+        type='ProposedHead',
+        eval_disc_weight=False,
+        discriminate=True,
+        operator='a_n_n',
+        img_size=img_size,
+        in_channels=in_channels,
+        # seen_idx=base_class,
+        # all_idx=both_class,
+        channels=in_channels,
+        # num_classes=num_classes,
+        num_layers=3,
+        num_heads=8,
+        use_proj=False,
+        use_stages=len(out_indices),
+        embed_dims=in_channels,
+        rd_config=dict(
+            type='UnlearnableRD', operator='qms_q', use_proj=True, proj_dims=2*in_channels, dim=in_channels),
+        loss_decode=dict(
+            type='SegLossPlus', 
+            # num_classes=num_classes, 
+            dec_layers=3, 
+            mask_weight=20.0, #100.0
+            dice_weight=1.0,
+            disc_weight=10.0,
+            loss_weight=1.0,),
+    ),
+    test_cfg=dict(mode='slide', crop_size=(img_size, img_size), stride=(426, 426)), 
+    # base_class = base_class,
+    # novel_class = novel_class,
+    # both_class = both_class,
+    ft_backbone = False,
+    exclude_key='prompt',
+    # load_text_embedding='src/configs/_base_/datasets/text_embedding/voc12_single.npy'
+)

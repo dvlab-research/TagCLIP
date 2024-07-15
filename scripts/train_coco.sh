@@ -1,0 +1,1 @@
+python3 src/train.py configs/coco/inductive.py --work-dir=output/tmp/coco/ours/inductive/trial:1/   && python test.py src/configs/coco/inductive.py output/rebuttal2/coco/ours/inductive/trial:1//latest.pth --eval=mIoU

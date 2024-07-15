@@ -9,10 +9,7 @@ Contrastive Language-Image Pre-training (CLIP) has recently shown great promise 
 ## Preparation
 ### Environment
 ```bash
-# Install pytorch
-conda install pytorch==1.10.1 torchvision==0.11.2 torchaudio=0.10.1 cudatoolkit=11.1 -c pytorch
-# Install the mmsegmentation library and some required packages.
-pip install mmcv-full==1.4.4 mmsegmentation==0.24.0
+pip install -r requirements.txt
 ```
 ### Dataset
 The data preparation document is [here](https://github.com/open-mmlab/mmsegmentation/blob/master/docs/en/dataset_prepare.md)
